@@ -1,24 +1,9 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const buttons = document.querySelectorAll('.gallery button');
-    const images = document.querySelectorAll('.gallery .background img');
-    const lightModeButton = document.querySelector('.light-mode-button'); // Make sure to update these class names to match your actual button class names
-    const darkModeButton = document.querySelector('.dark-mode-button');
+// Get the buttons and theme-related elements
+const lightModeButton = document.getElementById('light-mode');
+const darkModeButton = document.getElementById('dark-mode');
+const body = document.body;
 
-    buttons.forEach((button, index) => {
-        button.addEventListener('click', () => {
-            alert(`تم تحميل الخلفية ${index + 1}!`);
-        });
-    });
-
-    if (lightModeButton) {
-        lightModeButton.addEventListener('click', () => toggleTheme('light'));
-    }
-
-    if (darkModeButton) {
-        darkModeButton.addEventListener('click', () => toggleTheme('dark'));
-    }
-});
-
+// Function to toggle between light and dark modes
 function toggleTheme(theme) {
     if (theme === 'dark') {
         document.body.classList.add('dark-mode');
@@ -26,3 +11,28 @@ function toggleTheme(theme) {
         document.body.classList.remove('dark-mode');
     }
 }
+
+
+// Add event listeners for the theme toggle buttons
+lightModeButton.addEventListener('click', () => toggleTheme('light'));
+darkModeButton.addEventListener('click', () => toggleTheme('dark'));
+
+// Function to download the image
+function downloadImage(imageUrl) {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = imageUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Add event listeners to all download buttons
+document.querySelectorAll('button[data-image-url]').forEach(button => {
+    button.addEventListener('click', function() {
+        const imageUrl = this.getAttribute('data-image-url');
+        if (imageUrl) {
+            downloadImage(imageUrl);
+        }
+    });
+});
